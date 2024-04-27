@@ -26,3 +26,14 @@ exports.getData = (request, response)=>{
         }
     })
 }
+exports.deleteData = (request, response)=>{
+    let sql = "delete from user where id = ?"
+    let id = request.params.id
+
+    db.query(sql,[id] , (err, result)=>{
+        if(err) throw err
+        else{
+            response.send("data dalated ")
+        }
+    })
+}
