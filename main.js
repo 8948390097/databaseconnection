@@ -1,4 +1,6 @@
+
 const express = require('express')
+const ejs = require('ejs')
 const bodyParser = require('body-parser')
 const db = require('./dataBaseConfig.js')
 const userRouter = require('./route/userRoute.js')
@@ -6,7 +8,11 @@ const userRouter = require('./route/userRoute.js')
 let app = express()
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended: true}))
-let port = 3000
+app.set('view engine', 'ejs')
+app.use(express.static('public'))
+
+
+let port = 4000
 let hostname = '127.0.0.1'
 
 db.connect((err)=>{
@@ -32,15 +38,9 @@ db.query(userTableQuery, (err, result)=>{
 })
 
 
-app.get('/', (req, res)=>{
-    res.sendFile(__dirname + '/index.html')
-})
-
 app.use('/api', userRouter)
 
 
 app.listen(port, hostname , ()=>{
-    console.log(`server is running at http://${hostname}:${port}`)
+    console.log(`server is running at http://${hostname}:${port}/api/`)
 })
-
-
